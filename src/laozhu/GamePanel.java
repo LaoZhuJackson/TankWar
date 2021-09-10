@@ -15,7 +15,7 @@ public class GamePanel extends JFrame {
     //指针图片
     Image select = Toolkit.getDefaultToolkit().getImage("images/selectTank.gif");
     //指针初始纵坐标（横坐标不需要变化）
-    int y = 150;
+    int y = 160;
 
     //定义双缓存图片
     Image offScreenImage = null;
@@ -34,6 +34,8 @@ public class GamePanel extends JFrame {
     ArrayList<enemyTank>enemyTanksList=new ArrayList<enemyTank>();
     ArrayList<Bullet>removeList=new ArrayList<>();//为消除子弹单独建立一个列表用于实现子弹消失
     ArrayList<Tank>playerList=new ArrayList<Tank>();//玩家列表
+    ArrayList<Wall>wallList=new ArrayList<Wall>();//墙体列表
+
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("images/p1tankU.gif", 125, 510, this, "images/p1tankU.gif", "images/p1tankL.gif", "images/p1tankR.gif", "images/p1tankD.gif");
 
@@ -51,7 +53,15 @@ public class GamePanel extends JFrame {
         setResizable(false);//不允许调整窗口大小
         setVisible(true);//使窗口可见
         this.addKeyListener(new GamePanel.KeyMonitor());//添加键盘监视器
-
+        //打印围墙
+        for(int i=0;i<14;i++){
+            wallList.add(new Wall("images/walls.gif",i*60,170,this));
+        }
+        wallList.add(new Wall("images/walls.gif",305,560,this));
+        wallList.add(new Wall("images/walls.gif",305,500,this));
+        wallList.add(new Wall("images/walls.gif",365,500,this));
+        wallList.add(new Wall("images/walls.gif",425,500,this));
+        wallList.add(new Wall("images/walls.gif",425,560,this));
         //重绘
         while (true) {
             //添加电脑坦克
@@ -101,6 +111,10 @@ public class GamePanel extends JFrame {
             }
 
             //绘制游戏元素
+            //绘制墙体
+            for(Wall wall:wallList){
+                wall.paintSelf(gImage);
+            }
             //playerOne.paintSelf(gImage);该方法不适合双人模式使用
             for(Tank player:playerList){
                 player.paintSelf(gImage);//利用循环来绘制玩家坦克（解决了上一个注释的问题）
@@ -133,11 +147,11 @@ public class GamePanel extends JFrame {
             switch (key) {//选择模式
                 case KeyEvent.VK_1 -> {
                     a = 1;
-                    y = 150;//同时改变选择指针纵坐标位置
+                    y = 160;//同时改变选择指针纵坐标位置
                 }
                 case KeyEvent.VK_2-> {
                     a = 2;
-                    y = 250;
+                    y = 260;
                 }
                 case KeyEvent.VK_ENTER ->{
                     //按下回车时给state赋值

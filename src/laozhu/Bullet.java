@@ -40,6 +40,7 @@ public class Bullet extends GameObject{
             case UP -> upward();
             case DOWN -> downward();
         }
+        this.hitWall();//在移动中进行碰撞检测
     }
     //玩家子弹与敌方坦克的碰撞检测
     public void hitEnemy(){
@@ -48,6 +49,18 @@ public class Bullet extends GameObject{
             if(this.getRec().intersects(enemyTank.getRec())){//如果玩家子弹矩形与敌方坦克矩形重叠
                 this.gamePanel.enemyTanksList.remove(enemyTank);//将被击中的坦克从enemyTanksList中remove
                 this.gamePanel.removeList.add(this);//敌方子弹加入消失列表removeList
+                break;
+            }
+        }
+    }
+    //子弹与墙壁碰撞检测
+    public void hitWall(){
+        //围墙列表
+        ArrayList<Wall>walls=this.gamePanel.wallList;
+        for(Wall wall:walls){
+            if(this.getRec().intersects(wall.getRec())){
+                this.gamePanel.wallList.remove(wall);
+                this.gamePanel.removeList.add(this);
                 break;
             }
         }
