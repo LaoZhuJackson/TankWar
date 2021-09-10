@@ -32,6 +32,8 @@ public class GamePanel extends JFrame {
     //游戏元素列表,毕竟不可能只发送一个子弹，用列表储存多个子弹
     ArrayList<Bullet>bulletList=new ArrayList<Bullet>();
     ArrayList<enemyTank>enemyTanksList=new ArrayList<enemyTank>();
+    ArrayList<Bullet>removeList=new ArrayList<>();//为消除子弹单独建立一个列表用于实现子弹消失
+    ArrayList<Tank>playerList=new ArrayList<Tank>();//玩家列表
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("images/p1tankU.gif", 125, 510, this, "images/p1tankU.gif", "images/p1tankL.gif", "images/p1tankR.gif", "images/p1tankD.gif");
 
@@ -99,13 +101,17 @@ public class GamePanel extends JFrame {
             }
 
             //绘制游戏元素
-            playerOne.paintSelf(gImage);
+            //playerOne.paintSelf(gImage);该方法不适合双人模式使用
+            for(Tank player:playerList){
+                player.paintSelf(gImage);//利用循环来绘制玩家坦克（解决了上一个注释的问题）
+            }
             //enemy
             //enemyTank enemytank=new enemyTank("images/enemy1U.gif",500,110,this,"images/enemy1U.gif","images/enemy1L.gif","images/enemy1R.gif","images/enemy1D.gif");
             //利用循环列表来绘制坦克
             for(enemyTank enemytank:enemyTanksList){
                 enemytank.paintSelf(gImage);
             }
+            bulletList.removeAll(removeList);//在下一次遍历子弹列表前遍历一边要删除的子弹列表实现删除子弹
             for(Bullet bullet:bulletList){
                 bullet.paintSelf(gImage);//循环输出列表中的所有子弹
             }
@@ -133,9 +139,12 @@ public class GamePanel extends JFrame {
                     a = 2;
                     y = 250;
                 }
-                case KeyEvent.VK_ENTER ->
-                        //按下回车时给state赋值
-                        state = a;
+                case KeyEvent.VK_ENTER ->{
+                    //按下回车时给state赋值
+                    state = a;
+                    playerList.add(playerOne);//将玩家1加入玩家列表
+                    //playerTwo
+                }
                 default ->{
                     //调用p1的键盘事件
                     playerOne.keyPressed(e);

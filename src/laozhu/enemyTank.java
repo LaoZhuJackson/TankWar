@@ -49,8 +49,8 @@ public class enemyTank extends Tank{
     public void attack(){
         Point p =getHeadPoint();
         Random random =new Random();
-        int rnum=random.nextInt(100);
-        if(rnum<4){//有4%的几率发射子弹
+        int rnum=random.nextInt(400);
+        if(rnum<4){//有1%的几率发射子弹
             //将子弹添加到
             this.gamePanel.bulletList.add(new EnemyBullet("images/enemymissile.gif",p.x,p.y,this.gamePanel,this.direction));
         }

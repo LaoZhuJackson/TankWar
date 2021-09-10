@@ -1,6 +1,7 @@
 package laozhu;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 //子弹类
 public class Bullet extends GameObject{
@@ -40,12 +41,24 @@ public class Bullet extends GameObject{
             case DOWN -> downward();
         }
     }
+    //玩家子弹与敌方坦克的碰撞检测
+    public void hitEnemy(){
+        ArrayList<enemyTank>enemyTanks=this.gamePanel.enemyTanksList;//将坦克列表存入另一个列表
+        for(enemyTank enemyTank:enemyTanks){
+            if(this.getRec().intersects(enemyTank.getRec())){//如果玩家子弹矩形与敌方坦克矩形重叠
+                this.gamePanel.enemyTanksList.remove(enemyTank);//将被击中的坦克从enemyTanksList中remove
+                this.gamePanel.removeList.add(this);//敌方子弹加入消失列表removeList
+                break;
+            }
+        }
+    }
 
     //子弹类的方法
     @Override
     public void paintSelf(Graphics g){
         g.drawImage(img,x,y,null);
         this.go();//调用go方法移动子弹
+        this.hitEnemy();//将被击中方法加入
     }
     @Override
     public Rectangle getRec(){
