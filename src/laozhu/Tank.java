@@ -9,7 +9,7 @@ public abstract class Tank extends GameObject {
     //速度
     private int speed = 5;
     //方向，通过枚举类实现,默认向上
-    private Direction direction = Direction.UP;
+    public Direction direction = Direction.UP;
     //四个方向的图片
     private String upImg;
     private String leftImg;
