@@ -31,6 +31,7 @@ public class enemyTank extends Tank{
     }
     //移动函数
     public void go(){
+        attack();//实现边移动边射击
         if(moveTime>=20){
             direction=getRandomDirection();
             moveTime=0;
@@ -42,6 +43,16 @@ public class enemyTank extends Tank{
             case RIGHT -> rightward();
             case UP -> upward();
             case DOWN -> downward();
+        }
+    }
+
+    public void attack(){
+        Point p =getHeadPoint();
+        Random random =new Random();
+        int rnum=random.nextInt(100);
+        if(rnum<4){//有4%的几率发射子弹
+            //将子弹添加到
+            this.gamePanel.bulletList.add(new EnemyBullet("images/enemymissile.gif",p.x,p.y,this.gamePanel,this.direction));
         }
     }
 
