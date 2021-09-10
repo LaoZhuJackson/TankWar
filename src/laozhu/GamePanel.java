@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GamePanel extends JFrame {
     //窗口长宽
@@ -23,9 +24,14 @@ public class GamePanel extends JFrame {
     int state = 0;
     //a用来暂存玩家的选择，此时玩家还未确定模式
     int a = 1;
+    //重绘次数
+    int count=0;
+    //已生成敌人数量
+    int enemyCount=0;
 
     //游戏元素列表,毕竟不可能只发送一个子弹，用列表储存多个子弹
     ArrayList<Bullet>bulletList=new ArrayList<Bullet>();
+    ArrayList<enemyTank>enemyTanksList=new ArrayList<enemyTank>();
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("images/p1tankU.gif", 125, 510, this, "images/p1tankU.gif", "images/p1tankL.gif", "images/p1tankR.gif", "images/p1tankD.gif");
 
@@ -46,6 +52,13 @@ public class GamePanel extends JFrame {
 
         //重绘
         while (true) {
+            //添加电脑坦克
+            if(count %100==1&&enemyCount<10){//控制坦克生成的速度和数量
+                Random random=new Random();
+                int rnum=random.nextInt(800);//随机生成敌方坦克的横坐标
+                enemyTanksList.add(new enemyTank("images/enemy1U.gif",rnum,110,this,"images/enemy1U.gif","images/enemy1L.gif","images/enemy1R.gif","images/enemy1D.gif"));
+                enemyCount++;
+            }
             repaint();//重绘会删除所有元素重新绘制，造成闪烁、缓慢，利用双缓存解决
             try {
                 Thread.sleep(25);
@@ -87,9 +100,17 @@ public class GamePanel extends JFrame {
 
             //绘制游戏元素
             playerOne.paintSelf(gImage);
+            //enemy
+            //enemyTank enemytank=new enemyTank("images/enemy1U.gif",500,110,this,"images/enemy1U.gif","images/enemy1L.gif","images/enemy1R.gif","images/enemy1D.gif");
+            //利用循环列表来绘制坦克
+            for(enemyTank enemytank:enemyTanksList){
+                enemytank.paintSelf(gImage);
+            }
             for(Bullet bullet:bulletList){
                 bullet.paintSelf(gImage);//循环输出列表中的所有子弹
             }
+            //重绘一次
+            count++;
         }
         /*将缓存区绘制好的图片（offScreenImage）绘制到容器的画布（g）中*/
         g.drawImage(offScreenImage, 0, 0, null);
