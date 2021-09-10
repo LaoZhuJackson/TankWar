@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class GamePanel extends JFrame {
     //窗口长宽
@@ -23,6 +24,8 @@ public class GamePanel extends JFrame {
     //a用来暂存玩家的选择，此时玩家还未确定模式
     int a = 1;
 
+    //游戏元素列表,毕竟不可能只发送一个子弹，用列表储存多个子弹
+    ArrayList<Bullet>bulletList=new ArrayList<Bullet>();
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("images/p1tankU.gif", 125, 510, this, "images/p1tankU.gif", "images/p1tankL.gif", "images/p1tankR.gif", "images/p1tankD.gif");
 
@@ -31,7 +34,7 @@ public class GamePanel extends JFrame {
         GamePanel gp = new GamePanel();
         gp.launch();
     }
-
+    //窗口启动方法
     public void launch() {
         setTitle("坦克大战");
         setSize(width, height);
@@ -82,10 +85,13 @@ public class GamePanel extends JFrame {
                 gImage.drawString("双人模式", 220, 200);
             }
 
-            //添加游戏元素
+            //绘制游戏元素
             playerOne.paintSelf(gImage);
+            for(Bullet bullet:bulletList){
+                bullet.paintSelf(gImage);//循环输出列表中的所有子弹
+            }
         }
-        /**将缓存区绘制好的图片（offScreenImage）绘制到容器的画布（g）中**/
+        /*将缓存区绘制好的图片（offScreenImage）绘制到容器的画布（g）中*/
         g.drawImage(offScreenImage, 0, 0, null);
     }
 

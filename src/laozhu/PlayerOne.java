@@ -26,6 +26,8 @@ public class PlayerOne extends Tank{
             case KeyEvent.VK_W:
                 up=true;
                 break;
+            case  KeyEvent.VK_J:
+                attack();//执行Tank.java里的函数
             default:
                 break;
         }
