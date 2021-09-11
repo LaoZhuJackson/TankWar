@@ -20,7 +20,7 @@ public class GamePanel extends JFrame {
     //定义双缓存图片
     Image offScreenImage = null;
 
-    //游戏模式 0 游戏未开始，1 单人模式，2 双人模式
+    //游戏模式 0 游戏未开始，1 单人模式，2 双人模式  3.游戏暂停 4.游戏失败 5.游戏胜利
     int state = 0;
     //a用来暂存玩家的选择，此时玩家还未确定模式
     int a = 1;
@@ -70,8 +70,16 @@ public class GamePanel extends JFrame {
 
         //重绘
         while (true) {
+            //游戏胜利判断
+            if(enemyTanksList.size()==0&&enemyCount==10){//敌方坦克全部消灭
+                state=5;
+            }
+            //游戏失败判定
+            if(playerList.size()==0&&(state==1||state==2)||baseList.size()==0){
+                state=4;
+            }
             //添加电脑坦克
-            if(count %100==1&&enemyCount<10){//控制坦克生成的速度和数量
+            if(count %100==1&&enemyCount<10&&(state==1||state==2)){//控制坦克生成的速度和数量,暂停时不生成
                 Random random=new Random();
                 int rnum=random.nextInt(800);//随机生成敌方坦克的横坐标
                 enemyTanksList.add(new enemyTank("images/enemy1U.gif",rnum,110,this,"images/enemy1U.gif","images/enemy1L.gif","images/enemy1R.gif","images/enemy1D.gif"));
@@ -89,7 +97,7 @@ public class GamePanel extends JFrame {
     //paint()方法
     @Override
     public void paint(Graphics g) {
-        System.out.println(bulletList.size());//打印子弹列表长度
+        //System.out.println(bulletList.size());//打印子弹列表长度
         //创建和容器一样大小的Image图片
         if (offScreenImage == null)
             offScreenImage = this.createImage(width, height);
@@ -143,6 +151,15 @@ public class GamePanel extends JFrame {
             //重绘一次
             count++;
         }
+        else if(state==3){
+            gImage.drawString("游戏暂停", 220, 200);
+        }
+        else if(state==4){
+            gImage.drawString("游戏失败", 220, 200);
+        }
+        else if(state==5){
+            gImage.drawString("游戏胜利", 220, 200);
+        }
         /*将缓存区绘制好的图片（offScreenImage）绘制到容器的画布（g）中*/
         g.drawImage(offScreenImage, 0, 0, null);
     }
@@ -169,6 +186,18 @@ public class GamePanel extends JFrame {
                     state = a;
                     playerList.add(playerOne);//将玩家1加入玩家列表
                     //playerTwo
+                }
+                case KeyEvent.VK_SPACE -> {
+                    if(state!=3){
+                        a=state;//a暂存状态，保存现场
+                        state=3;
+                    }
+                    else{
+                        state=a;//恢复
+                        if(a==0){//如果游戏为未开始状态
+                            a=1;
+                        }
+                    }
                 }
                 default ->{
                     //调用p1的键盘事件
