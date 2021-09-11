@@ -20,6 +20,12 @@ public abstract class GameObject {
         this.gamePanel = gamePanel;
     }
 
+    public GameObject(int x, int y, GamePanel gamePanel) {
+        this.x = x;
+        this.y = y;
+        this.gamePanel = gamePanel;
+    }
+
     //定义共通方法
     //绘制方法，将自身绘制出来，参数为一个画布
     public abstract void paintSelf(Graphics g);

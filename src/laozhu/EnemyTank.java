@@ -4,11 +4,11 @@ import java.awt.*;
 import java.util.Random;
 
 //敌方坦克类
-public class enemyTank extends Tank{
+public class EnemyTank extends Tank{
 
     int moveTime=0;//定义移动次数，通过判定移动次数改变方向
 
-    public enemyTank(String img,int x,int y,GamePanel gamePanel, String upImg, String leftImg, String rightImg,String downImg){
+    public EnemyTank(String img, int x, int y, GamePanel gamePanel, String upImg, String leftImg, String rightImg, String downImg){
         super(img, x, y, gamePanel, upImg, leftImg, rightImg, downImg);
     }
     //随机生成的方向

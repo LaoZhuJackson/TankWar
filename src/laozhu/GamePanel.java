@@ -31,11 +31,12 @@ public class GamePanel extends JFrame {
 
     //游戏元素列表,毕竟不可能只发送一个子弹，用列表储存多个子弹
     ArrayList<Bullet>bulletList=new ArrayList<Bullet>();
-    ArrayList<enemyTank>enemyTanksList=new ArrayList<enemyTank>();
+    ArrayList<EnemyTank>enemyTanksList=new ArrayList<EnemyTank>();
     ArrayList<Bullet>removeList=new ArrayList<>();//为消除子弹单独建立一个列表用于实现子弹消失
     ArrayList<Tank>playerList=new ArrayList<Tank>();//玩家列表
     ArrayList<Wall>wallList=new ArrayList<Wall>();//墙体列表
     ArrayList<Base>baseList=new ArrayList<Base>();//基地列表
+    ArrayList<Blast>blastList=new ArrayList<Blast>();//爆炸列表
 
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("images/p1tankU.gif", 125, 510, this, "images/p1tankU.gif", "images/p1tankL.gif", "images/p1tankR.gif", "images/p1tankD.gif");
@@ -82,7 +83,7 @@ public class GamePanel extends JFrame {
             if(count %100==1&&enemyCount<10&&(state==1||state==2)){//控制坦克生成的速度和数量,暂停时不生成
                 Random random=new Random();
                 int rnum=random.nextInt(800);//随机生成敌方坦克的横坐标
-                enemyTanksList.add(new enemyTank("images/enemy1U.gif",rnum,110,this,"images/enemy1U.gif","images/enemy1L.gif","images/enemy1R.gif","images/enemy1D.gif"));
+                enemyTanksList.add(new EnemyTank("images/enemy1U.gif",rnum,110,this,"images/enemy1U.gif","images/enemy1L.gif","images/enemy1R.gif","images/enemy1D.gif"));
                 enemyCount++;
             }
             repaint();//重绘会删除所有元素重新绘制，造成闪烁、缓慢，利用双缓存解决
@@ -137,7 +138,7 @@ public class GamePanel extends JFrame {
             //enemy
             //enemyTank enemytank=new enemyTank("images/enemy1U.gif",500,110,this,"images/enemy1U.gif","images/enemy1L.gif","images/enemy1R.gif","images/enemy1D.gif");
             //利用循环列表来绘制坦克
-            for(enemyTank enemytank:enemyTanksList){
+            for(EnemyTank enemytank:enemyTanksList){
                 enemytank.paintSelf(gImage);
             }
             bulletList.removeAll(removeList);//在下一次遍历子弹列表前遍历一边要删除的子弹列表实现删除子弹
@@ -148,7 +149,11 @@ public class GamePanel extends JFrame {
             for(Base base:baseList){
                 base.paintSelf(gImage);
             }
-            //重绘一次
+            //绘制爆炸
+            for(Blast blast:blastList){
+                blast.paintSelf(gImage);
+            }
+            //重绘一次，计数
             count++;
         }
         else if(state==3){
