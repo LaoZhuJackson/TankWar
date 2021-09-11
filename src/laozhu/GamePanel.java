@@ -35,9 +35,12 @@ public class GamePanel extends JFrame {
     ArrayList<Bullet>removeList=new ArrayList<>();//为消除子弹单独建立一个列表用于实现子弹消失
     ArrayList<Tank>playerList=new ArrayList<Tank>();//玩家列表
     ArrayList<Wall>wallList=new ArrayList<Wall>();//墙体列表
+    ArrayList<Base>baseList=new ArrayList<Base>();//基地列表
 
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("images/p1tankU.gif", 125, 510, this, "images/p1tankU.gif", "images/p1tankL.gif", "images/p1tankR.gif", "images/p1tankD.gif");
+    //基地
+    Base base =new Base("images/star.gif",375,565,this);
 
     //main
     public static void main(String[] args) {
@@ -53,7 +56,7 @@ public class GamePanel extends JFrame {
         setResizable(false);//不允许调整窗口大小
         setVisible(true);//使窗口可见
         this.addKeyListener(new GamePanel.KeyMonitor());//添加键盘监视器
-        //打印围墙
+        //添加围墙
         for(int i=0;i<14;i++){
             wallList.add(new Wall("images/walls.gif",i*60,170,this));
         }
@@ -62,6 +65,9 @@ public class GamePanel extends JFrame {
         wallList.add(new Wall("images/walls.gif",365,500,this));
         wallList.add(new Wall("images/walls.gif",425,500,this));
         wallList.add(new Wall("images/walls.gif",425,560,this));
+        //添加基地
+        baseList.add(base);
+
         //重绘
         while (true) {
             //添加电脑坦克
@@ -83,7 +89,7 @@ public class GamePanel extends JFrame {
     //paint()方法
     @Override
     public void paint(Graphics g) {
-        System.out.println(bulletList.size());
+        //System.out.println(bulletList.size());//打印子弹列表长度
         //创建和容器一样大小的Image图片
         if (offScreenImage == null)
             offScreenImage = this.createImage(width, height);
@@ -129,6 +135,10 @@ public class GamePanel extends JFrame {
             bulletList.removeAll(removeList);//在下一次遍历子弹列表前遍历一边要删除的子弹列表实现删除子弹
             for(Bullet bullet:bulletList){
                 bullet.paintSelf(gImage);//循环输出列表中的所有子弹
+            }
+            //绘制基地
+            for(Base base:baseList){
+                base.paintSelf(gImage);
             }
             //重绘一次
             count++;
