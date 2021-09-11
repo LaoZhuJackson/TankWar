@@ -1,11 +1,12 @@
 package laozhu;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Tank extends GameObject {
     //尺寸，设置为public类型方便被继承
-    public int width = 44;
-    public int height = 44;
+    public int width = 60;
+    public int height = 60;
     //速度
     private int speed = 5;
     //方向，通过枚举类实现,默认向上
@@ -33,22 +34,27 @@ public abstract class Tank extends GameObject {
 
     //坦克移动
     public void leftward(){
-        x-=speed;
-        setImg(leftImg);
         direction=Direction.LEFT;
+        setImg(leftImg);
+        if(!hitWall(x-speed,y))//先碰撞就检测再移动
+            x-=speed;
     }
     public void upward(){
-        y-=speed;
-        setImg(upImg);
         direction=Direction.UP;
+        setImg(upImg);
+        if(!hitWall(x,y-speed))//先碰撞就检测再移动
+            y-=speed;
     }
     public void rightward(){
-        x+=speed;
-        setImg(rightImg);
         direction=Direction.RIGHT;
+        if(!hitWall(x+speed,y))//先碰撞就检测再移动
+            x+=speed;
+        setImg(rightImg);
     }
     public void downward(){
-        y+=speed;
+        direction=Direction.DOWN;
+        if(!hitWall(x,y+speed))//先碰撞就检测再移动
+            y+=speed;
         setImg(downImg);
         direction=Direction.DOWN;
     }
@@ -82,16 +88,28 @@ public abstract class Tank extends GameObject {
     public Point getHeadPoint(){
         switch (direction){
             case LEFT :
-                return new Point(x-12,y+height/2);//横坐标不变，纵坐标加半个坦克长度
+                return new Point(x-13,y+height/2-8);//横坐标不变，纵坐标加半个坦克长度
             case  RIGHT:
-                return new Point(x+width+12,y+height/2);
+                return new Point(x+width-4,y+height/2-8);
             case UP:
-                return new Point(x+width/2,y-12);
+                return new Point(x+width/2-8,y-12);
             case DOWN:
-                return new Point(x+width/2,y+height+12);
+                return new Point(x+width/2-8,y+height-1);
             default:
                 return null;
         }
+    }
+    //与围墙碰撞检测
+    public boolean hitWall(int x,int y){
+        //围墙列表
+        ArrayList<Wall>walls=this.gamePanel.wallList;
+        Rectangle nextStep=new Rectangle(x,y,width,height);//坦克下一步矩形坐标
+        for (Wall wall:walls){//循环检测碰撞
+            if(nextStep.intersects(wall.getRec())){
+                return true;//发生碰撞，返回true
+            }
+        }
+        return false;//没有产生碰撞
     }
     //定义setImg函数
     public void setImg(String img){
