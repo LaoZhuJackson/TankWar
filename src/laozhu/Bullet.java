@@ -66,6 +66,9 @@ public class Bullet extends GameObject{
         }
     }
 
+    //子弹出界删除
+
+
     //子弹类的方法
     @Override
     public void paintSelf(Graphics g){

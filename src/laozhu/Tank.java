@@ -36,24 +36,24 @@ public abstract class Tank extends GameObject {
     public void leftward(){
         direction=Direction.LEFT;
         setImg(leftImg);
-        if(!hitWall(x-speed,y))//先碰撞就检测再移动
+        if(!hitWall(x-speed,y)&& !moveToBorder(x-speed,y))//先碰撞就检测再移动
             x-=speed;
     }
     public void upward(){
         direction=Direction.UP;
         setImg(upImg);
-        if(!hitWall(x,y-speed))//先碰撞就检测再移动
+        if(!hitWall(x,y-speed)&& !moveToBorder(x,y-speed))//先碰撞就检测再移动
             y-=speed;
     }
     public void rightward(){
         direction=Direction.RIGHT;
-        if(!hitWall(x+speed,y))//先碰撞就检测再移动
+        if(!hitWall(x+speed,y)&& !moveToBorder(x+speed,y))//先碰撞就检测再移动
             x+=speed;
         setImg(rightImg);
     }
     public void downward(){
         direction=Direction.DOWN;
-        if(!hitWall(x,y+speed))//先碰撞就检测再移动
+        if(!hitWall(x,y+speed)&& !moveToBorder(x,y+speed))//先碰撞就检测再移动
             y+=speed;
         setImg(downImg);
         direction=Direction.DOWN;
@@ -110,6 +110,18 @@ public abstract class Tank extends GameObject {
             }
         }
         return false;//没有产生碰撞
+    }
+    //坦克与边界的碰撞检测
+    public boolean moveToBorder(int x,int y){
+        //左右边界
+        if (x<0||x+width>this.gamePanel.getWidth()){
+            return true;
+        }
+        //上下边界
+        else if(y<20||y+height>this.gamePanel.getHeight()){
+            return true;
+        }
+        return false;
     }
     //定义setImg函数
     public void setImg(String img){
