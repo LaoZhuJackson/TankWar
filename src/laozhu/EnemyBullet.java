@@ -16,6 +16,7 @@ public class EnemyBullet extends Bullet {
                 this.gamePanel.blastList.add(new Blast(player.x - 34, player.y - 14, this.gamePanel));//给玩家添加爆炸动画
                 this.gamePanel.playerList.remove(player);//将被击中的坦克从playerList中remove
                 this.gamePanel.removeList.add(this);//敌方子弹加入消失列表removeList
+                player.alive=false;
                 break;
             }
         }

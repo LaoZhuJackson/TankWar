@@ -10,7 +10,9 @@ public abstract class Tank extends GameObject {
     //方向，通过枚举类实现,默认向上
     public Direction direction = Direction.UP;
     //速度
-    private int speed = 5;
+    public int speed = 5;
+    //生命
+    public boolean alive=false;
     //四个方向的图片
     private String upImg;
     private String leftImg;
@@ -64,7 +66,7 @@ public abstract class Tank extends GameObject {
 
     //初始化发射子弹函数
     public void attack() {
-        if (attackCoolDown) {
+        if (attackCoolDown&&alive) {//只有活着才能射击
             Point p = this.getHeadPoint();
             Bullet bullet = new Bullet("images/tankmissile.gif", p.x, p.y, this.gamePanel, this.direction);
             this.gamePanel.bulletList.add(bullet);//把初始化的新子弹添加到列表里
