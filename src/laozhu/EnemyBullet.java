@@ -24,6 +24,7 @@ public class EnemyBullet extends Bullet{
         g.drawImage(img,x,y,null);
         this.go();
         this.hitPlayer();
+        this.moveToBorder();//加入出界检测
     }
     public Rectangle getRec(){
         return new Rectangle(x,y,width,height);

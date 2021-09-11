@@ -67,13 +67,23 @@ public class Bullet extends GameObject{
     }
 
     //子弹出界删除
-
+    public void moveToBorder(){
+        //左右边界
+        if (x<0||x+width>this.gamePanel.getWidth()){
+            this.gamePanel.removeList.add(this);//将子弹加入删除列表
+        }
+        //上下边界
+        if(y<20||y+height>this.gamePanel.getHeight()){
+            this.gamePanel.removeList.add(this);
+        }
+    }
 
     //子弹类的方法
     @Override
     public void paintSelf(Graphics g){
         g.drawImage(img,x,y,null);
         this.go();//调用go方法移动子弹
+        this.moveToBorder();//加入出界检测
         this.hitEnemy();//将被击中方法加入
     }
     @Override

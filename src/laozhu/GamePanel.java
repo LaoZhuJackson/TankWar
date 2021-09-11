@@ -83,6 +83,7 @@ public class GamePanel extends JFrame {
     //paint()方法
     @Override
     public void paint(Graphics g) {
+        System.out.println(bulletList.size());
         //创建和容器一样大小的Image图片
         if (offScreenImage == null)
             offScreenImage = this.createImage(width, height);
