@@ -3,12 +3,12 @@ package laozhu;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class PlayerOne extends Tank {
+public class PlayerTwo extends Tank {
     //定义局部变量,用于判断键盘事件
     boolean left, right, up, down;
 
     //构造函数
-    public PlayerOne(String img, int x, int y, GamePanel gamePanel, String upImg, String leftImg, String rightImg, String downImg) {
+    public PlayerTwo(String img, int x, int y, GamePanel gamePanel, String upImg, String leftImg, String rightImg, String downImg) {
         super(img, x, y, gamePanel, upImg, leftImg, rightImg, downImg);
     }
 
@@ -16,19 +16,19 @@ public class PlayerOne extends Tank {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
-            case KeyEvent.VK_A:
+            case KeyEvent.VK_LEFT:
                 left = true;
                 break;
-            case KeyEvent.VK_S:
+            case KeyEvent.VK_DOWN:
                 down = true;
                 break;
-            case KeyEvent.VK_D:
+            case KeyEvent.VK_RIGHT:
                 right = true;
                 break;
-            case KeyEvent.VK_W:
+            case KeyEvent.VK_UP:
                 up = true;
                 break;
-            case KeyEvent.VK_J:
+            case KeyEvent.VK_NUMPAD1:
                 attack();//执行Tank.java里的函数
             default:
                 break;
@@ -39,16 +39,16 @@ public class PlayerOne extends Tank {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
-            case KeyEvent.VK_A:
+            case KeyEvent.VK_LEFT:
                 left = false;
                 break;
-            case KeyEvent.VK_S:
+            case KeyEvent.VK_DOWN:
                 down = false;
                 break;
-            case KeyEvent.VK_D:
+            case KeyEvent.VK_RIGHT:
                 right = false;
                 break;
-            case KeyEvent.VK_W:
+            case KeyEvent.VK_UP:
                 up = false;
                 break;
             default:

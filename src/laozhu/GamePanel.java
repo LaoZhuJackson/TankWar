@@ -40,6 +40,9 @@ public class GamePanel extends JFrame {
 
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("images/p1tankU.gif", 125, 510, this, "images/p1tankU.gif", "images/p1tankL.gif", "images/p1tankR.gif", "images/p1tankD.gif");
+    //PlayerTwo
+    PlayerTwo playerTwo = new PlayerTwo("images/p2tankU.gif", 625, 510, this, "images/p2tankU.gif", "images/p2tankL.gif", "images/p2tankR.gif", "images/p2tankD.gif");
+
     //基地
     Base base = new Base("images/star.gif", 375, 565, this);
 
@@ -121,9 +124,9 @@ public class GamePanel extends JFrame {
         //state==0/1，游戏开始
         else if (state == 1 || state == 2) {
             //游戏开始，展示剩余敌人
-            gImage.setFont(new Font("仿宋",Font.BOLD,25));
+            gImage.setFont(new Font("仿宋", Font.BOLD, 25));
             gImage.setColor(Color.red);
-            gImage.drawString("剩余敌人："+enemyTanksList.size(),10,65);
+            gImage.drawString("剩余敌人：" + enemyTanksList.size(), 10, 65);
 
             //绘制游戏元素
             //绘制墙体
@@ -187,6 +190,9 @@ public class GamePanel extends JFrame {
                     state = a;
                     playerList.add(playerOne);//将玩家1加入玩家列表
                     //playerTwo
+                    if (state == 2) {//如果游戏是双人模式
+                        playerList.add(playerTwo);//将玩家2加入玩家列表
+                    }
                 }
                 case KeyEvent.VK_SPACE -> {
                     if (state != 3) {
@@ -202,7 +208,7 @@ public class GamePanel extends JFrame {
                 default -> {
                     //调用p1的键盘事件
                     playerOne.keyPressed(e);
-                    playerOne.move();
+                    playerTwo.keyPressed(e);
                 }
 
             }
@@ -212,7 +218,7 @@ public class GamePanel extends JFrame {
         public void keyReleased(KeyEvent e) {
             //调用p1的键盘事件
             playerOne.keyReleased(e);
-            playerOne.move();
+            playerTwo.keyReleased(e);
         }
     }
 }
