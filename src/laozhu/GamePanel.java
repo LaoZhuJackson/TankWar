@@ -1,6 +1,6 @@
 package laozhu;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -30,13 +30,13 @@ public class GamePanel extends JFrame {
     int enemyCount = 0;
 
     //游戏元素列表,毕竟不可能只发送一个子弹，用列表储存多个子弹
-    ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
-    ArrayList<EnemyTank> enemyTanksList = new ArrayList<EnemyTank>();
+    ArrayList<Bullet> bulletList = new ArrayList<>();
+    ArrayList<EnemyTank> enemyTanksList = new ArrayList<>();
     ArrayList<Bullet> removeList = new ArrayList<>();//为消除子弹单独建立一个列表用于实现子弹消失
-    ArrayList<Tank> playerList = new ArrayList<Tank>();//玩家列表
-    ArrayList<Wall> wallList = new ArrayList<Wall>();//墙体列表
-    ArrayList<Base> baseList = new ArrayList<Base>();//基地列表
-    ArrayList<Blast> blastList = new ArrayList<Blast>();//爆炸列表
+    ArrayList<Tank> playerList = new ArrayList<>();//玩家列表
+    ArrayList<Wall> wallList = new ArrayList<>();//墙体列表
+    ArrayList<Base> baseList = new ArrayList<>();//基地列表
+    ArrayList<Blast> blastList = new ArrayList<>();//爆炸列表
 
     //PlayerOne
     PlayerOne playerOne = new PlayerOne("images/p1tankU.gif", 125, 510, this, "images/p1tankU.gif", "images/p1tankL.gif", "images/p1tankR.gif", "images/p1tankD.gif");
@@ -57,7 +57,7 @@ public class GamePanel extends JFrame {
         setTitle("坦克大战");
         setSize(width, height);
         setLocationRelativeTo(null);//屏幕居中
-        setDefaultCloseOperation(3);//添加关闭事件
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//添加关闭事件
         setResizable(false);//不允许调整窗口大小
         setVisible(true);//使窗口可见
         this.addKeyListener(new GamePanel.KeyMonitor());//添加键盘监视器
@@ -189,11 +189,11 @@ public class GamePanel extends JFrame {
                     //按下回车时给state赋值
                     state = a;
                     playerList.add(playerOne);//将玩家1加入玩家列表
-                    playerOne.alive=true;//设置玩家存活状态
+                    playerOne.alive = true;//设置玩家存活状态
                     //playerTwo
                     if (state == 2) {//如果游戏是双人模式
                         playerList.add(playerTwo);//将玩家2加入玩家列表
-                        playerTwo.alive=true;//设置玩家存活状态
+                        playerTwo.alive = true;//设置玩家存活状态
                     }
                 }
                 case KeyEvent.VK_SPACE -> {
