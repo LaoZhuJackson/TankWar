@@ -86,7 +86,7 @@ public class GamePanel extends JFrame {
             //添加电脑坦克
             if (count % 100 == 1 && enemyCount < 10 && (state == 1 || state == 2)) {//控制坦克生成的速度和数量,暂停时不生成
                 Random random = new Random();
-                int rnum = random.nextInt(800);//随机生成敌方坦克的横坐标
+                int rnum = random.nextInt(740);//随机生成敌方坦克的横坐标
                 enemyTanksList.add(new EnemyTank("images/enemy1U.gif", rnum, 110, this, "images/enemy1U.gif", "images/enemy1L.gif", "images/enemy1R.gif", "images/enemy1D.gif"));
                 enemyCount++;
             }
