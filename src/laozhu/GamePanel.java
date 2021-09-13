@@ -98,7 +98,18 @@ public class GamePanel extends JFrame {
             }
         }
     }
-
+    //初始化方法
+    public void initGame(){
+        state=0;
+        a=0;
+        //玩家坦克初始位置重置
+        //敌方坦克重置
+        enemyTanksList.clear();
+        // 墙壁重置
+        wallList.clear();
+        // 基地重置
+        baseList.clear();
+    }
     //paint()方法
     @Override
     public void paint(Graphics g) {
@@ -108,11 +119,15 @@ public class GamePanel extends JFrame {
             offScreenImage = this.createImage(width, height);
         //获取该图片的画笔
         Graphics gImage = offScreenImage.getGraphics();
+        Graphics gImage2=offScreenImage.getGraphics();
+
         gImage.setColor(Color.BLACK);//设置画笔颜色
         gImage.fillRect(0, 0, width, height);//实心矩形
         gImage.setColor(Color.WHITE);
+        gImage2.setColor(Color.WHITE);
 
         gImage.setFont(new Font("仿宋", Font.BOLD, 50));
+        gImage2.setFont(new Font("仿宋", Font.BOLD, 25));
         //state=0，游戏未开始
         if (state == 0) {
             gImage.drawString("选择游戏模式", 220, 100);
@@ -165,8 +180,8 @@ public class GamePanel extends JFrame {
         } else if (state == 5) {
             gImage.drawString("游戏胜利", 220, 200);
         }else if(state==6){
-            gImage.drawString("玩家一：w（上），s（下），a（左），d（右），j（攻击）", 220, 200);
-            gImage.drawString("玩家二：↑（上），↓（下），←（左），→（右），1（攻击）", 220, 300);
+            gImage2.drawString("玩家一：w（上），s（下），a（左），d（右），j（攻击）", 20, 200);
+            gImage2.drawString("玩家二：↑（上），↓（下），←（左），→（右），1（攻击）", 20, 300);
         }
         /*将缓存区绘制好的图片（offScreenImage）绘制到容器的画布（g）中*/
         g.drawImage(offScreenImage, 0, 0, null);
@@ -204,15 +219,19 @@ public class GamePanel extends JFrame {
                         playerTwo.alive = true;//设置玩家存活状态
                     }
                 }
-                case KeyEvent.VK_SPACE -> {
-                    if (state != 3) {
+                case KeyEvent.VK_ESCAPE -> {
+                    if (state ==1||state==2) {
                         a = state;//a暂存状态，保存现场
                         state = 3;
-                    } else {
+                    }
+                    else if(state==3){
                         state = a;//恢复
                         if (a == 0) {//如果游戏为未开始状态
                             a = 1;
                         }
+                    }
+                    else if(state==4||state==5||state==6){//当游戏胜利，失败，或者是退出游戏帮助时
+                        initGame();
                     }
                 }
                 default -> {
