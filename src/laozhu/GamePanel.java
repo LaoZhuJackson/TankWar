@@ -20,7 +20,7 @@ public class GamePanel extends JFrame {
     //定义双缓存图片
     Image offScreenImage = null;
 
-    //游戏模式 0 游戏未开始，1 单人模式，2 双人模式  3.游戏暂停 4.游戏失败 5.游戏胜利
+    //游戏模式 0 游戏未开始，1 单人模式，2 双人模式  3.游戏暂停 4.游戏失败 5.游戏胜利 6.游戏帮助
     int state = 0;
     //a用来暂存玩家的选择，此时玩家还未确定模式
     int a = 1;
@@ -118,6 +118,7 @@ public class GamePanel extends JFrame {
             gImage.drawString("选择游戏模式", 220, 100);
             gImage.drawString("单人模式", 220, 200);
             gImage.drawString("双人模式", 220, 300);
+            gImage.drawString("游戏帮助", 220, 400);
             //绘制指针
             gImage.drawImage(select, 160, y, null);
         }
@@ -163,6 +164,9 @@ public class GamePanel extends JFrame {
             gImage.drawString("游戏失败", 220, 200);
         } else if (state == 5) {
             gImage.drawString("游戏胜利", 220, 200);
+        }else if(state==6){
+            gImage.drawString("玩家一：w（上），s（下），a（左），d（右），j（攻击）", 220, 200);
+            gImage.drawString("玩家二：↑（上），↓（下），←（左），→（右），1（攻击）", 220, 300);
         }
         /*将缓存区绘制好的图片（offScreenImage）绘制到容器的画布（g）中*/
         g.drawImage(offScreenImage, 0, 0, null);
@@ -184,6 +188,10 @@ public class GamePanel extends JFrame {
                 case KeyEvent.VK_2 -> {
                     a = 2;
                     y = 260;
+                }
+                case KeyEvent.VK_3 -> {
+                    a = 6;
+                    y = 360;
                 }
                 case KeyEvent.VK_ENTER -> {
                     //按下回车时给state赋值
